@@ -8,7 +8,7 @@
 
 #import "TaskViewController.h"
 #import "AppDelegate.h"
-#import "TaskDetailViewController.h"
+
 
 static CGFloat const tableViewCellHeight = 60.0;
 static NSString* const Cellidentifier = @"Cell";
@@ -16,15 +16,24 @@ static NSString* const sequeForTaskDetailVC = @"idSequeEditInfo";
 
 @interface TaskViewController ()
 //properties for Core data
-@property(strong)NSMutableArray *tasks;
+@property(strong,)NSMutableArray *tasks;
 //properties for SQlite3
 @property(strong,nonatomic) DBManager* dbManager;
 @property(strong,nonatomic)NSArray* arrTaskInfo;
 @property(nonatomic) int recordIDToEdit;
+//@property(nonatomic) int switchValue;
+
 
 @end
 
 @implementation TaskViewController
+
+//+(instancetype)initWithSwitchValue:(int)value {
+//UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    TaskViewController *viewController = [board instantiateViewControllerWithIdentifier:@"SomeId"];
+//    viewController.switchValue = value;
+//    return viewController;
+//}
 
 -(NSManagedObjectContext*)managedObjectContext{
     AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
@@ -39,7 +48,8 @@ static NSString* const sequeForTaskDetailVC = @"idSequeEditInfo";
     } else {
         self.changeDB.on = NO;
     }
-   
+    [self loadData];
+    [self loadCoredata];
 }
 
 
@@ -49,32 +59,43 @@ static NSString* const sequeForTaskDetailVC = @"idSequeEditInfo";
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    if ([self.changeDB isOn]){
-    [self.tableView reloadData];
-    } else if (![self.changeDB isOn]){
-        self.dbManager = [[DBManager alloc] initWithFileName:@"taskManagerDB"];
-        [self loadData];
-    }
+     self.dbManager = [[DBManager alloc] initWithFileName:@"taskManagerDB.sql"];
     
+    
+//     if (![self.changeDB isOn]){
+//        //self.dbManager = [[DBManager alloc] initWithFileName:@"taskManagerDB.sql"];
+//        [self loadData];
+//    }
+    [self.tableView reloadData];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if([self.changeDB isOn]){
-    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tasks"];
-    self.tasks = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy] ;
+//    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tasks"];
+//    self.tasks = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy] ;
     
     [self.tableView reloadData];
+    } else if (![self.changeDB isOn]){
+        [self loadData];
     }
 }
+
 -(void)loadData{
     NSString *query = @"select * from taskInfo";
-    
+
     if(self.arrTaskInfo != nil){
         self.arrTaskInfo = nil;
     }
     self.arrTaskInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+
+    [self.tableView reloadData];
+}
+-(void)loadCoredata{
+    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tasks"];
+    self.tasks = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy] ;
     
     [self.tableView reloadData];
 }
@@ -107,30 +128,37 @@ static NSString* const sequeForTaskDetailVC = @"idSequeEditInfo";
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     
     if([self.changeDB isOn]){
+//        NSLog(@"cellForRowAtIndexPath is called");
     NSManagedObject *task = [self.tasks objectAtIndex:indexPath.row];
     [cell.textLabel setText:[NSString stringWithFormat:@"%@(%@)",[task valueForKey:@"taskName"],[task valueForKey:@"taskDescription"]]];
     [cell.detailTextLabel setText:[NSString stringWithFormat:@"Deadline:%@ Priority:%@",[task valueForKey:@"deadline"],[task valueForKey:@"priority"]]];
     } else if (![self.changeDB isOn])
     {
+        //NSLog(@"cellForRowAtIndexPath is called");
         NSInteger taskNameIndex = [self.dbManager.arrColumnNames indexOfObject:@"taskName"];
         NSInteger taskDescriptionIndex = [self.dbManager.arrColumnNames indexOfObject:@"taskDescription"];
         NSInteger deadlineIndex = [self.dbManager.arrColumnNames indexOfObject:@"deadline"];
         NSInteger priorityIndex = [self.dbManager.arrColumnNames indexOfObject:@"priority"];
-        
-        
+
+
         cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@) ",[[self.arrTaskInfo objectAtIndex:indexPath.row] objectAtIndex:taskNameIndex],[[self.arrTaskInfo objectAtIndex:indexPath.row]objectAtIndex:taskDescriptionIndex] ];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"Deadline: %@ day(s) Priority: %@", [[self.arrTaskInfo objectAtIndex:indexPath.row] objectAtIndex:deadlineIndex],[[self.arrTaskInfo objectAtIndex:indexPath.row] objectAtIndex:priorityIndex]] ;
     }
     
     return cell;
 }
+-(void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+    NSManagedObject *selectedTask = [self.tasks objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"idSequeEditInfo" sender:self];
+}
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     return YES;
 }
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
     if (editingStyle == UITableViewCellEditingStyleDelete){
-        if([self.changeDB isOn]){
+    if([self.changeDB isOn]){
+    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+
         [managedObjectContext deleteObject:[self.tasks objectAtIndex:indexPath.row]];
         
         NSError *error = nil;
@@ -148,20 +176,31 @@ static NSString* const sequeForTaskDetailVC = @"idSequeEditInfo";
         
     }
 }
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if([[segue identifier] isEqualToString:sequeForTaskDetailVC]){
-        if([self.changeDB isOn]){
-        NSManagedObject *selectedTask = [self.tasks objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+    if ([[segue identifier] isEqualToString:sequeForTaskDetailVC]){
         TaskDetailViewController *taskDetailVC = segue.destinationViewController;
-        taskDetailVC.task=selectedTask;
-        } else if(![self.changeDB isOn]){
-            self.recordIDToEdit = [[self.arrTaskInfo objectAtIndex:[[self.tableView indexPathForSelectedRow] row]] intValue];
-            TaskDetailViewController *taskDetailVC = segue.destinationViewController;
-            taskDetailVC.recordIDToEdit = self.recordIDToEdit;
-            taskDetailVC.switchState = self.changeDB.isOn;
-        }
+        taskDetailVC.switchState = self.changeDB.on;
     }
 }
+//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    if([[segue identifier] isEqualToString:sequeForTaskDetailVC]){
+////        if([self.changeDB isOn]){
+//        NSManagedObject *selectedTask = [self.tasks objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+//        TaskDetailViewController *taskDetailVC = segue.destinationViewController;
+//        taskDetailVC.task=selectedTask;
+//            NSLog(@"is on");
+////        }
+////        else if(![self.changeDB isOn]){
+////            self.recordIDToEdit = [[self.arrTaskInfo objectAtIndex:[[self.tableView indexPathForSelectedRow] row]] intValue];
+////            TaskDetailViewController *taskDetailVC = segue.destinationViewController;
+////            taskDetailVC.recordIDToEdit = self.recordIDToEdit;
+////            //taskDetailVC.switchState = self.changeDB;
+////             NSLog(@"is off");
+////        }
+//    }
+//
+//}
 
 
 - (IBAction)changeSwitch:(id)sender {
@@ -182,5 +221,9 @@ static NSString* const sequeForTaskDetailVC = @"idSequeEditInfo";
         flag = NO;
     }
     return flag;
+}
+
+- (IBAction)addNewRecord:(id)sender {
+    [self performSegueWithIdentifier:sequeForTaskDetailVC sender:self];
 }
 @end

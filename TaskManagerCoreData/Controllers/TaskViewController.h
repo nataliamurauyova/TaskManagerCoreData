@@ -9,13 +9,18 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import "DBManager.h"
+#import "TaskDetailViewController.h"
 
 @interface TaskViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UISwitch *changeDB;
 
 
+
 - (IBAction)changeSwitch:(id)sender;
 -(BOOL) switchState;
+- (IBAction)addNewRecord:(id)sender;
+-(void)loadData;
+-(void)loadCoredata;
 
 @end

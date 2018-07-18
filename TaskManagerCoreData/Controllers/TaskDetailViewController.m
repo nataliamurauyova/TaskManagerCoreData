@@ -39,22 +39,26 @@
     
     self.navigationController.navigationBar.tintColor = self.navigationItem.rightBarButtonItem.tintColor;
     
+    if(self.switchState == false){
+    self.dbManager = [[DBManager alloc] initWithFileName:@"taskManagerDB.sql"];
+    }
+    
 //    TaskViewController *taskVC = [[TaskViewController alloc] init];
 //    if([taskVC.changeDB isOn]){
-    if(self.switchState){
+//    if(self.switchState){
     if(self.task){
         [self.taskName setText:[self.task valueForKey:@"taskName"]];
         [self.taskDescription setText:[self.task valueForKey:@"taskDescription"]];
         [self.deadline setText:[self.task valueForKey:@"deadline"]];
         [self.priority setText:[self.task valueForKey:@"priority"]];
         
-    } } else if 
-//    }
-//     else if (![taskVC.changeDB isOn]){
-//        self.dbManager = [[DBManager alloc] initWithFileName:@"taskMananger"];
-//        if(self.recordIDToEdit != -1){
-//            [self loadInfoToEdit];
-//        }
+    }
+    
+//} else if(!self.switchState){
+//        self.dbManager = [[DBManager alloc] initWithFileName:@"taskManagerDB.sql"];
+//                if(self.recordIDToEdit != -1){
+//                    [self loadInfoToEdit];
+//                }
 //    }
     
 }
@@ -79,13 +83,8 @@
 }
 
 - (IBAction)save:(id)sender {
+    if(self.switchState == true){
     NSManagedObjectContext *context = [self managedObjectContext];
-    
-//    TaskViewController *taskVC = [[TaskViewController alloc] init];
-//    if([taskVC.changeDB isOn]){
-    
-    
-    if (self.switchState){
     if(self.task){
         [self.task setValue:self.taskName.text forKey:@"taskName"];
         [self.task setValue:self.taskDescription.text forKey:@"taskDescription"];
@@ -103,24 +102,40 @@
     if(![context save:&error]) {
         NSLog(@"Can't save! %@",[error localizedDescription]);
     }
-    } else if (!self.switchState)
-
-    {
+    } else if (self.switchState == false){
         NSString *query;
-        if(self.recordIDToEdit == -1){
-            query = [NSString stringWithFormat:@"insert into taskInfo values(null,'%@','%@',%d, '%@')",self.taskName.text,self.taskDescription.text,[self.deadline.text intValue],self.priority.text ];
-        } else {
-            query = [NSString stringWithFormat:@"update taskInfo set taskName = '%@', taskDescription = '%@', deadline = %d, prioriry = '%@' where taskInfoID = %d", self.taskName.text,self.taskDescription.text,self.deadline.text.intValue, self.priority.text, self.recordIDToEdit];
-        }
-        [self.dbManager executeQuery:query];
-        if(self.dbManager.affectedRows !=0){
-            NSLog(@"Query executed successfully. Affected rows = %d",self.dbManager.affectedRows);
-            //[self.delegate editingInfoWasFinished];
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            NSLog(@"Problems with executing the query");
-        }
+                if(self.recordIDToEdit == -1){
+                    query = [NSString stringWithFormat:@"insert into taskInfo values(null,'%@','%@',%d, '%@')",self.taskName.text,self.taskDescription.text,[self.deadline.text intValue],self.priority.text ];
+                } else {
+                    query = [NSString stringWithFormat:@"update taskInfo set taskName = '%@', taskDescription = '%@', deadline = %d, priority = '%@' where taskInfoID = %d", self.taskName.text,self.taskDescription.text,self.deadline.text.intValue, self.priority.text, self.recordIDToEdit];
+                }
+                [self.dbManager executeQuery:query];
+                if(self.dbManager.affectedRows !=0){
+                    NSLog(@"Query executed successfully. Affected rows = %d",self.dbManager.affectedRows);
+                    //[self.delegate editingInfoWasFinished];
+                    [self.navigationController popViewControllerAnimated:YES];
+                } else {
+                    NSLog(@"Problems with executing the query");
+                }
     }
+//    } else if (!self.switchState)
+//
+//    {
+//        NSString *query;
+//        if(self.recordIDToEdit == -1){
+//            query = [NSString stringWithFormat:@"insert into taskInfo values(null,'%@','%@',%d, '%@')",self.taskName.text,self.taskDescription.text,[self.deadline.text intValue],self.priority.text ];
+//        } else {
+//            query = [NSString stringWithFormat:@"update taskInfo set taskName = '%@', taskDescription = '%@', deadline = %d, priority = '%@' where taskInfoID = %d", self.taskName.text,self.taskDescription.text,self.deadline.text.intValue, self.priority.text, self.recordIDToEdit];
+//        }
+//        [self.dbManager executeQuery:query];
+//        if(self.dbManager.affectedRows !=0){
+//            NSLog(@"Query executed successfully. Affected rows = %d",self.dbManager.affectedRows);
+//            //[self.delegate editingInfoWasFinished];
+//            [self.navigationController popViewControllerAnimated:YES];
+//        } else {
+//            NSLog(@"Problems with executing the query");
+//        }
+//    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)loadInfoToEdit{

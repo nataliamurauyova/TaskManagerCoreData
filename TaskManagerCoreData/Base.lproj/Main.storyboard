@@ -22,11 +22,11 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="3CN-7p-O2Y" detailTextLabel="z6B-iR-xg3" style="IBUITableViewCellStyleSubtitle" id="uu2-PY-u8U">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="Cell" textLabel="3CN-7p-O2Y" detailTextLabel="z6B-iR-xg3" style="IBUITableViewCellStyleSubtitle" id="uu2-PY-u8U">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uu2-PY-u8U" id="oQp-Cx-6Vt">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="308" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3CN-7p-O2Y">
@@ -45,9 +45,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="cha-YV-SxM" kind="show" identifier="idSequeEditInfo" id="B7R-cV-5kp"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -73,13 +70,14 @@
                         </switch>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="PLn-at-Oz5">
                             <connections>
-                                <segue destination="cha-YV-SxM" kind="modal" id="yfI-QS-hc8"/>
+                                <action selector="addNewRecord:" destination="BYZ-38-t0r" id="fV7-XX-4Vk"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="changeDB" destination="nXZ-Xh-hzw" id="Cgu-aX-7Hb"/>
                         <outlet property="tableView" destination="80k-c9-CS1" id="BFO-9g-H5q"/>
+                        <segue destination="cha-YV-SxM" kind="show" identifier="idSequeEditInfo" id="BHq-dY-xw1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -190,7 +188,4 @@
             <point key="canvasLocation" x="254" y="-588"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="B7R-cV-5kp"/>
-    </inferredMetricsTieBreakers>
 </document>

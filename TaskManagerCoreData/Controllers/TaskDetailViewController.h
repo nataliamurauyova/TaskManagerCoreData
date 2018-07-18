@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import "TaskViewController.h"
+#import "DBManager.h"
+
+
 
 @interface TaskDetailViewController : UIViewController <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
 @property (strong, nonatomic) IBOutlet UITextField *taskName;
@@ -19,7 +22,9 @@
 @property(strong,nonatomic) NSManagedObject *task;
 @property(assign,nonatomic) BOOL switchState;
 
+
 @property(nonatomic) int recordIDToEdit;
+@property(strong,nonatomic) NSManagedObject *rowToEdit;
 
 
 - (IBAction)cancel:(id)sender;
