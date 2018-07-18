@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA647C2220FF4BA000E39E2D /* taskManagerDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = EA647C2120FF4BA000E39E2D /* taskManagerDB.sql */; };
 		EA8105D420FCCE51003CCBA2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8105D320FCCE51003CCBA2 /* AppDelegate.m */; };
 		EA8105D720FCCE51003CCBA2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8105D620FCCE51003CCBA2 /* ViewController.m */; };
 		EA8105DA20FCCE51003CCBA2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA8105D820FCCE51003CCBA2 /* Main.storyboard */; };
@@ -16,9 +17,16 @@
 		EA8105E520FCCE52003CCBA2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8105E420FCCE52003CCBA2 /* main.m */; };
 		EA8105ED20FCD1D5003CCBA2 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8105EC20FCD1D5003CCBA2 /* TaskViewController.m */; };
 		EA8105F020FCD246003CCBA2 /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8105EF20FCD246003CCBA2 /* TaskDetailViewController.m */; };
+		EAD02A7D20FE43FE00262779 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EAD02A7C20FE43FE00262779 /* DBManager.m */; };
+		EAD02A8020FE446F00262779 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD02A7F20FE446F00262779 /* CoreData.framework */; };
+		EAD02A8220FE447800262779 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD02A8120FE447800262779 /* CoreFoundation.framework */; };
+		EAD02A8420FE448300262779 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD02A8320FE448300262779 /* Foundation.framework */; };
+		EAD02A8620FE449000262779 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD02A8520FE449000262779 /* UIKit.framework */; };
+		EAD02A8820FE449A00262779 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD02A8720FE449A00262779 /* libsqlite3.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EA647C2120FF4BA000E39E2D /* taskManagerDB.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = taskManagerDB.sql; sourceTree = "<group>"; };
 		EA8105CF20FCCE51003CCBA2 /* TaskManagerCoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskManagerCoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA8105D220FCCE51003CCBA2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EA8105D320FCCE51003CCBA2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -34,6 +42,13 @@
 		EA8105EC20FCD1D5003CCBA2 /* TaskViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskViewController.m; sourceTree = "<group>"; };
 		EA8105EE20FCD246003CCBA2 /* TaskDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskDetailViewController.h; sourceTree = "<group>"; };
 		EA8105EF20FCD246003CCBA2 /* TaskDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskDetailViewController.m; sourceTree = "<group>"; };
+		EAD02A7B20FE43FE00262779 /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		EAD02A7C20FE43FE00262779 /* DBManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		EAD02A7F20FE446F00262779 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		EAD02A8120FE447800262779 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		EAD02A8320FE448300262779 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EAD02A8520FE449000262779 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EAD02A8720FE449A00262779 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,17 +56,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAD02A8820FE449A00262779 /* libsqlite3.tbd in Frameworks */,
+				EAD02A8620FE449000262779 /* UIKit.framework in Frameworks */,
+				EAD02A8420FE448300262779 /* Foundation.framework in Frameworks */,
+				EAD02A8220FE447800262779 /* CoreFoundation.framework in Frameworks */,
+				EAD02A8020FE446F00262779 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EA647C1F20FF2C5400E39E2D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EA8105EE20FCD246003CCBA2 /* TaskDetailViewController.h */,
+				EA8105EF20FCD246003CCBA2 /* TaskDetailViewController.m */,
+				EA8105EB20FCD1D5003CCBA2 /* TaskViewController.h */,
+				EA8105EC20FCD1D5003CCBA2 /* TaskViewController.m */,
+				EA8105D520FCCE51003CCBA2 /* ViewController.h */,
+				EA8105D620FCCE51003CCBA2 /* ViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		EA8105C620FCCE51003CCBA2 = {
 			isa = PBXGroup;
 			children = (
 				EA8105D120FCCE51003CCBA2 /* TaskManagerCoreData */,
 				EA8105D020FCCE51003CCBA2 /* Products */,
+				EAD02A7E20FE446F00262779 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,22 +100,32 @@
 		EA8105D120FCCE51003CCBA2 /* TaskManagerCoreData */ = {
 			isa = PBXGroup;
 			children = (
+				EA647C1F20FF2C5400E39E2D /* Controllers */,
 				EA8105D220FCCE51003CCBA2 /* AppDelegate.h */,
 				EA8105D320FCCE51003CCBA2 /* AppDelegate.m */,
-				EA8105D520FCCE51003CCBA2 /* ViewController.h */,
-				EA8105D620FCCE51003CCBA2 /* ViewController.m */,
 				EA8105D820FCCE51003CCBA2 /* Main.storyboard */,
 				EA8105DE20FCCE52003CCBA2 /* Assets.xcassets */,
 				EA8105E020FCCE52003CCBA2 /* LaunchScreen.storyboard */,
 				EA8105E320FCCE52003CCBA2 /* Info.plist */,
 				EA8105E420FCCE52003CCBA2 /* main.m */,
+				EA647C2120FF4BA000E39E2D /* taskManagerDB.sql */,
 				EA8105DB20FCCE51003CCBA2 /* TaskManagerCoreData.xcdatamodeld */,
-				EA8105EB20FCD1D5003CCBA2 /* TaskViewController.h */,
-				EA8105EC20FCD1D5003CCBA2 /* TaskViewController.m */,
-				EA8105EE20FCD246003CCBA2 /* TaskDetailViewController.h */,
-				EA8105EF20FCD246003CCBA2 /* TaskDetailViewController.m */,
+				EAD02A7B20FE43FE00262779 /* DBManager.h */,
+				EAD02A7C20FE43FE00262779 /* DBManager.m */,
 			);
 			path = TaskManagerCoreData;
+			sourceTree = "<group>";
+		};
+		EAD02A7E20FE446F00262779 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EAD02A8720FE449A00262779 /* libsqlite3.tbd */,
+				EAD02A8520FE449000262779 /* UIKit.framework */,
+				EAD02A8320FE448300262779 /* Foundation.framework */,
+				EAD02A8120FE447800262779 /* CoreFoundation.framework */,
+				EAD02A7F20FE446F00262779 /* CoreData.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +188,7 @@
 				EA8105E220FCCE52003CCBA2 /* LaunchScreen.storyboard in Resources */,
 				EA8105DF20FCCE52003CCBA2 /* Assets.xcassets in Resources */,
 				EA8105DA20FCCE51003CCBA2 /* Main.storyboard in Resources */,
+				EA647C2220FF4BA000E39E2D /* taskManagerDB.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAD02A7D20FE43FE00262779 /* DBManager.m in Sources */,
 				EA8105D720FCCE51003CCBA2 /* ViewController.m in Sources */,
 				EA8105DD20FCCE51003CCBA2 /* TaskManagerCoreData.xcdatamodeld in Sources */,
 				EA8105ED20FCD1D5003CCBA2 /* TaskViewController.m in Sources */,

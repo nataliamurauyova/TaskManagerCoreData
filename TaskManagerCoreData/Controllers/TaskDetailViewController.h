@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "TaskViewController.h"
 
 @interface TaskDetailViewController : UIViewController <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
 @property (strong, nonatomic) IBOutlet UITextField *taskName;
@@ -16,6 +17,9 @@
 @property (strong, nonatomic) IBOutlet UITextField *priority;
 @property (strong, nonatomic) IBOutlet UIPickerView *pickerView;
 @property(strong,nonatomic) NSManagedObject *task;
+@property(assign,nonatomic) BOOL switchState;
+
+@property(nonatomic) int recordIDToEdit;
 
 
 - (IBAction)cancel:(id)sender;

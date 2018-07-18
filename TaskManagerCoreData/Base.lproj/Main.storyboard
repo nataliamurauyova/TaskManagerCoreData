@@ -62,6 +62,15 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="pH5-Dv-OBd">
+                        <nil key="title"/>
+                        <switch key="titleView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="nXZ-Xh-hzw">
+                            <rect key="frame" x="162" y="6.5" width="51" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="onTintColor" red="0.82622319459915161" green="0.92565613985061646" blue="0.9554099440574646" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="changeSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="TPj-hA-xtP"/>
+                            </connections>
+                        </switch>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="PLn-at-Oz5">
                             <connections>
                                 <segue destination="cha-YV-SxM" kind="modal" id="yfI-QS-hc8"/>
@@ -69,6 +78,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="changeDB" destination="nXZ-Xh-hzw" id="Cgu-aX-7Hb"/>
                         <outlet property="tableView" destination="80k-c9-CS1" id="BFO-9g-H5q"/>
                     </connections>
                 </viewController>
