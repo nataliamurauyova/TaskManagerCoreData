@@ -41,42 +41,30 @@
     
     if(self.switchState == false){
     self.dbManager = [[DBManager alloc] initWithFileName:@"taskManagerDB.sql"];
+        if(self.recordIDToEdit != -1){
+            [self loadInfoToEdit];
+                            }
+    } else if(self.switchState == true){
+        if(self.task){
+            [self.taskName setText:[self.task valueForKey:@"taskName"]];
+            [self.taskDescription setText:[self.task valueForKey:@"taskDescription"]];
+            [self.deadline setText:[self.task valueForKey:@"deadline"]];
+            [self.priority setText:[self.task valueForKey:@"priority"]];
+            
+        }
     }
     
 //    TaskViewController *taskVC = [[TaskViewController alloc] init];
 //    if([taskVC.changeDB isOn]){
 //    if(self.switchState){
-    if(self.task){
-        [self.taskName setText:[self.task valueForKey:@"taskName"]];
-        [self.taskDescription setText:[self.task valueForKey:@"taskDescription"]];
-        [self.deadline setText:[self.task valueForKey:@"deadline"]];
-        [self.priority setText:[self.task valueForKey:@"priority"]];
-        
-    }
-    
-//} else if(!self.switchState){
-//        self.dbManager = [[DBManager alloc] initWithFileName:@"taskManagerDB.sql"];
-//                if(self.recordIDToEdit != -1){
-//                    [self loadInfoToEdit];
-//                }
+//    if(self.task){
+//        [self.taskName setText:[self.task valueForKey:@"taskName"]];
+//        [self.taskDescription setText:[self.task valueForKey:@"taskDescription"]];
+//        [self.deadline setText:[self.task valueForKey:@"deadline"]];
+//        [self.priority setText:[self.task valueForKey:@"priority"]];
+//
 //    }
-    
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)cancel:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -90,7 +78,8 @@
         [self.task setValue:self.taskDescription.text forKey:@"taskDescription"];
         [self.task setValue:self.deadline.text forKey:@"deadline"];
         [self.task setValue:self.priority.text forKey:@"priority"];
-    } else {
+    }else
+    {
     NSManagedObject *newTask = [NSEntityDescription insertNewObjectForEntityForName:@"Tasks" inManagedObjectContext:context];
     [newTask setValue:self.taskName.text forKey:@"taskName"];
     [newTask setValue:self.taskDescription.text forKey:@"taskDescription"];
@@ -112,30 +101,12 @@
                 [self.dbManager executeQuery:query];
                 if(self.dbManager.affectedRows !=0){
                     NSLog(@"Query executed successfully. Affected rows = %d",self.dbManager.affectedRows);
-                    //[self.delegate editingInfoWasFinished];
+                    
                     [self.navigationController popViewControllerAnimated:YES];
                 } else {
                     NSLog(@"Problems with executing the query");
                 }
     }
-//    } else if (!self.switchState)
-//
-//    {
-//        NSString *query;
-//        if(self.recordIDToEdit == -1){
-//            query = [NSString stringWithFormat:@"insert into taskInfo values(null,'%@','%@',%d, '%@')",self.taskName.text,self.taskDescription.text,[self.deadline.text intValue],self.priority.text ];
-//        } else {
-//            query = [NSString stringWithFormat:@"update taskInfo set taskName = '%@', taskDescription = '%@', deadline = %d, priority = '%@' where taskInfoID = %d", self.taskName.text,self.taskDescription.text,self.deadline.text.intValue, self.priority.text, self.recordIDToEdit];
-//        }
-//        [self.dbManager executeQuery:query];
-//        if(self.dbManager.affectedRows !=0){
-//            NSLog(@"Query executed successfully. Affected rows = %d",self.dbManager.affectedRows);
-//            //[self.delegate editingInfoWasFinished];
-//            [self.navigationController popViewControllerAnimated:YES];
-//        } else {
-//            NSLog(@"Problems with executing the query");
-//        }
-//    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)loadInfoToEdit{
@@ -147,6 +118,16 @@
     self.taskDescription.text = [[results objectAtIndex:0] objectAtIndex:[self.dbManager.arrColumnNames indexOfObject:@"taskDescription"]];
     self.deadline.text = [[results objectAtIndex:0] objectAtIndex:[self.dbManager.arrColumnNames indexOfObject:@"deadline"]];
     self.priority.text = [[results objectAtIndex:0] objectAtIndex:[self.dbManager.arrColumnNames indexOfObject:@"priority"]];
+}
+-(void)loadCoreDataToEdit{
+//    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Tasks"];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(taskID = %d)",[self.task.taskID intValue]];
+    if(self.task){
+                [self.task setValue:self.taskName.text forKey:@"taskName"];
+                [self.task setValue:self.taskDescription.text forKey:@"taskDescription"];
+                [self.task setValue:self.deadline.text forKey:@"deadline"];
+                [self.task setValue:self.priority.text forKey:@"priority"];
+            }
 }
 
 #pragma mark - UITextFieldDelegate methods

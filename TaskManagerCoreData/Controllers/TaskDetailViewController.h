@@ -20,6 +20,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *priority;
 @property (strong, nonatomic) IBOutlet UIPickerView *pickerView;
 @property(strong,nonatomic) NSManagedObject *task;
+@property (nonatomic, assign) NSNumber* taskID;
 @property(assign,nonatomic) BOOL switchState;
 
 
