@@ -53,17 +53,6 @@
             
         }
     }
-    
-//    TaskViewController *taskVC = [[TaskViewController alloc] init];
-//    if([taskVC.changeDB isOn]){
-//    if(self.switchState){
-//    if(self.task){
-//        [self.taskName setText:[self.task valueForKey:@"taskName"]];
-//        [self.taskDescription setText:[self.task valueForKey:@"taskDescription"]];
-//        [self.deadline setText:[self.task valueForKey:@"deadline"]];
-//        [self.priority setText:[self.task valueForKey:@"priority"]];
-//
-//    }
 }
 
 - (IBAction)cancel:(id)sender {

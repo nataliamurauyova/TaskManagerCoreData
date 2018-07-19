@@ -153,6 +153,21 @@ static NSString* const sequeForTaskDetailVC = @"idSequeEditInfo";
         self.recordIDToEdit = [[[self.arrTaskInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue];
     }
     [self performSegueWithIdentifier:@"idSequeEditInfo" sender:self];
+//    NSManagedObject *selectedTask = [self.tasks objectAtIndex:indexPath.row];
+//    NSLog(@"%@", [[self.tasks objectAtIndex:indexPath.row] class]);
+//    if(![self.changeDB isOn]){
+//        self.recordIDToEdit = [[[self.arrTaskInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue];
+//        [self performSegueWithIdentifier:sequeForTaskDetailVC sender:self];
+//    }
+//
+//    if ([self.changeDB isOn]){
+//        self.task = selectedTask;
+//        [self performSegueWithIdentifier:@"editCoreData" sender:self];
+//    }
+//    else if ([self.changeDB isOn]){
+//        [self performSegueWithIdentifier:@"editCoreData" sender:self];
+//    }
+    //[self performSegueWithIdentifier:@"idSequeEditInfo" sender:self];
 }
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     return YES;
@@ -179,32 +194,46 @@ static NSString* const sequeForTaskDetailVC = @"idSequeEditInfo";
         
     }
 }
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    if (![self.changeDB isOn]) {
+    //    if (![self.changeDB isOn]) {
     if ([[segue identifier] isEqualToString:sequeForTaskDetailVC]){
         TaskDetailViewController *taskDetailVC = segue.destinationViewController;
-                taskDetailVC.switchState = self.changeDB.on;
-                taskDetailVC.recordIDToEdit = self.recordIDToEdit;
+        taskDetailVC.switchState = self.changeDB.on;
+        if (![self.changeDB isOn]) {
+            taskDetailVC.recordIDToEdit = self.recordIDToEdit;
+        }
+        if ([self.changeDB isOn]){
+            NSManagedObject *selectedTask = [self.tasks objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+            taskDetailVC.task = selectedTask;
+        }
+       
     }
-//    } else if ([self.changeDB isOn]){
+}
+//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    if (![self.changeDB isOn]) {
+//    if ([[segue identifier] isEqualToString:sequeForTaskDetailVC]){
+//        TaskDetailViewController *taskDetailVC = segue.destinationViewController;
+//                taskDetailVC.switchState = self.changeDB.on;
+//                taskDetailVC.recordIDToEdit = self.recordIDToEdit;
+//    }
+//    }else if ([self.changeDB isOn]){
 //        if ([[segue identifier] isEqualToString:@"editCoreData"]){
 //            TaskDetailViewController *taskDetailVC = segue.destinationViewController;
 //            taskDetailVC.switchState = self.changeDB.on;
 //            NSManagedObject *selectedTask = [self.tasks objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
 //            taskDetailVC.task = selectedTask;
-//        }
-    
-//    if ([[segue identifier] isEqualToString:sequeForTaskDetailVC]){
-//        TaskDetailViewController *taskDetailVC = segue.destinationViewController;
-//        taskDetailVC.switchState = self.changeDB.on;
-//        taskDetailVC.recordIDToEdit = self.recordIDToEdit;
-//        if([self.changeDB isOn]){
-//            NSManagedObject *selectedTask = [self.tasks objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
-//            taskDetailVC.task=selectedTask;
-//        }
-    
-
+//        } }
+//
+////    if ([[segue identifier] isEqualToString:sequeForTaskDetailVC]){
+////        TaskDetailViewController *taskDetailVC = segue.destinationViewController;
+////        taskDetailVC.switchState = self.changeDB.on;
+////        taskDetailVC.recordIDToEdit = self.recordIDToEdit;
+////        if([self.changeDB isOn]){
+////            NSManagedObject *selectedTask = [self.tasks objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+////            taskDetailVC.task=selectedTask;
+////        }
+//
+//
 //-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
 //    if([[segue identifier] isEqualToString:sequeForTaskDetailVC]){
 ////        if([self.changeDB isOn]){
@@ -223,8 +252,24 @@ static NSString* const sequeForTaskDetailVC = @"idSequeEditInfo";
 //    }
 //
 //}
-}
+//}
 
+//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    TaskDetailViewController *taskDetailVC = segue.destinationViewController;
+//        if (![self.changeDB isOn]) {
+//    if ([[segue identifier] isEqualToString:sequeForTaskDetailVC]){
+//        taskDetailVC.switchState = self.changeDB.on;
+//        taskDetailVC.recordIDToEdit = self.recordIDToEdit;
+//    } }
+//    if([self.changeDB isOn]){
+//        if([[segue identifier] isEqualToString:@"editCoreData"]){
+//            NSManagedObject *selectedTask = [self.tasks objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+//            taskDetailVC.switchState = self.changeDB.on;
+//            taskDetailVC.task = self.task;
+//        }
+//    }
+//}
+//
 - (IBAction)changeSwitch:(id)sender {
     NSString *onValue = @"on";
     NSUserDefaults *userpref = [NSUserDefaults standardUserDefaults];

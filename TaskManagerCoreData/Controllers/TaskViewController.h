@@ -14,6 +14,7 @@
 @interface TaskViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UISwitch *changeDB;
+@property (strong,nonatomic) NSManagedObject *task;
 
 
 
